@@ -1,28 +1,9 @@
 
 const tooltipDirective = {
-    mounted(el, {value}) {
-        const exampleEl = document.getElementsByTagName('data-bs-toggle')
-        new bootstrap.Tooltip(el, {html: value})
-        console.log('exampleEl', exampleEl)
-
+    mounted(el) {
+        const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]')
+       tooltipTriggerList.map(elem => el.Tooltip(elem))
     }
-
 }
 
-
-
-
-    //M.Tooltip.init(el, {html: value})
-
-   //_ унитожение директивы tooltip после ухода со страницы
-  //beforeUnmount(el) {
-  //  const tooltip = M.Tooltip.getInstance(el);
-//
-  //  if(tooltip && tooltip.beforeUnmount()) {
-  //    tooltip.beforeUnmount();
-  //  }
-  //}
-
-
-
- export default tooltipDirective;
+export default tooltipDirective;

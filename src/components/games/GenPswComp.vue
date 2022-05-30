@@ -33,9 +33,8 @@
                     :disabled="isDisabledBtnGen"
                     data-bs-toggle="tooltip"
                     data-bs-placement="top"
+                    data-bs-delay="0"
                     title="Tooltip on top"
-                    v-tooltip="chooseText"
-
                 >Старт</button>
                 <button
                     class="btn btn-danger"
@@ -44,8 +43,8 @@
                     :disabled="isDisabledBtnReset"
                     data-bs-toggle="tooltip"
                     data-bs-placement="top"
+                    data-bs-delay="100"
                     title="Tooltip on top"
-                    v-tooltip="chooseText"
                 >Сброс</button>
               </div>
             </div>
