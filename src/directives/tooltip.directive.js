@@ -1,13 +1,13 @@
 
-//const tooltipDirective = {
-//    mounted(el, {value}) {
-//        const exampleEl = document.getElementsByTagName('data-bs-toggle')
-//        new bootstrap.Tooltip(el, {html: value})
-//        console.log('exampleEl', exampleEl)
-//
-//    }
-//
-//}
+const tooltipDirective = {
+    mounted(el, {value}) {
+        const exampleEl = document.getElementsByTagName('data-bs-toggle')
+        new bootstrap.Tooltip(el, {html: value})
+        console.log('exampleEl', exampleEl)
+
+    }
+
+}
 
 
 
@@ -25,4 +25,4 @@
 
 
 
- //export default tooltipDirective;
+ export default tooltipDirective;
