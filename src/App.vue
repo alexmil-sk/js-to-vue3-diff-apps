@@ -1,5 +1,5 @@
 <template>
-  <div class="container-md border-box">
+  <div class="container border-box">
     <NavbarComp />
     <div class="height100vh">
     <router-view/>

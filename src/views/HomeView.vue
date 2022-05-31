@@ -2,7 +2,7 @@
   <div class="container">
     <h1>Личный сайт студента GeekBrains</h1>
     <div class="center">
-      <img src="img/photo.png" alt="MyFoto" />
+      <img src="@/img/selfi.png" alt="MyFoto" />
       <div class="box_text">
         <p>Добрый день. Меня зовут Алексей.<br>
           Я - начинающий программист. Я совсем недавно встал на этот путь, но уже успел

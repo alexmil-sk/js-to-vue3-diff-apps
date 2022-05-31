@@ -8,6 +8,8 @@ import 'bootstrap';
 import "@/css/styles.css";
 import focusDirective from "@/directives/focus.directive.js";
 import tooltipDirective from "@/directives/tooltip.directive.js";
+import "@/css/tooltip.directive.css";
+
 
 createApp(App)
     .use(store)
