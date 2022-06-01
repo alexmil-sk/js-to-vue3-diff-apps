@@ -1,14 +1,14 @@
 <template>
-  <div class="container-md">
+<div class="container-md">
       <div>
         <h1 class="ff_oi">Игра "Отгадай загадки"</h1>
-          <form @submit.prevent="getAnswers" class="w-50 mt-5 p-3">
+        <form @submit.prevent="getAnswers" class="w-50 mt-5 p-3">
             <div class="mt-4">
               <label
                   for="q1"
                   class="form-label fw-bolder ff_nunito fs-4"
                   :class="{'text-danger': wrongAnswer1}"
-              >Какой стол не имеет ног?</label>
+              >{{riddles.riddle1.quest}}</label>
               <input
                   type="text"
                   v-model="answer1"
@@ -25,7 +25,7 @@
                   for="q2"
                   class="form-label fw-bolder ff_nunito fs-4"
                   :class="{'text-danger': wrongAnswer2}"
-              >Маленький, серенький на слона похож. Кто это?</label>
+              >{{riddles.riddle2.quest}}</label>
               <input
                   type="text"
                   v-model="answer2"
@@ -41,7 +41,7 @@
                   for="q3"
                   class="form-label fw-bolder ff_nunito fs-4"
                   :class="{'text-danger': wrongAnswer3}"
-              >У семерых братьев по сестре. Сколько всего сестер?</label>
+              >{{riddles.riddle3.quest}}</label>
                 <input
                     type="text"
                     v-model="answer3"
@@ -57,7 +57,7 @@
                   for="q4"
                   class="form-label fw-bolder ff_nunito fs-4"
                   :class="{'text-danger': wrongAnswer4}"
-              >На руках десять пальцев. Сколько пальцев на десяти руках?</label>
+              >{{riddles.riddle4.quest}}</label>
                 <input
                     type="text"
                     v-model="answer4"
@@ -68,55 +68,56 @@
                     :disabled="isResult"
                 />
             </div>
-            <span class="absolute">
-              <button
-                  class="btn btn-primary mt-4 fs-6 text-uppercase"
-                  type="submit"
-                  :disabled="isBtnAnswer"
-              >
-              <img src="@/img/svg/pencil-square.svg" alt="pencil-square" />
-              Ответить</button>
-              <span
-                  id="guest"
-                  v-tooltip="'Проверить правильность ответов'"
-                  class="btnHintAnswer"
-              >
-              <img
-                src="@/img/svg/question-circle.svg"
-                alt="question"
-              />
-          </span>
-            </span>
-            <span class="absolute">
-              <button
-                  @click="reset"
-                  :disabled="isBtnClear"
-                  class="btn btn-danger mt-4 ms-2 fs-6 text-uppercase"
-
-              >
-                Очистить</button>
-              <span
-                  id="guest"
-                  v-tooltip="'Очистить форму'"
-                  class="btnHintReset"
-              >
-              <img
-                src="@/img/svg/question-circle.svg"
-                alt="question"
-              />
+              <span class="absolute">
+                <button
+                    class="btn btn-primary mt-4 fs-6 text-uppercase"
+                    type="submit"
+                    :disabled="isBtnAnswer"
+                >
+                <img src="@/img/svg/pencil-square.svg" alt="pencil-square" />
+                Ответить</button>
+                  <span
+                    id="guest"
+                    v-tooltip="'Проверить правильность ответов'"
+                    class="btnHintAnswer"
+                  >
+                    <img
+                      src="@/img/svg/question-circle.svg"
+                      alt="question"
+                    />
+                  </span>
               </span>
-            </span>
+              <span class="absolute">
+                <button
+                    @click="reset"
+                    :disabled="isBtnClear"
+                    class="btn btn-danger mt-4 ms-2 fs-6 text-uppercase"
 
+                >
+                  Очистить
+                </button>
+                <span
+                    id="guest"
+                    v-tooltip="'Очистить форму'"
+                    class="btnHintReset"
+                >
+                <img
+                  src="@/img/svg/question-circle.svg"
+                  alt="question"
+                />
+                </span>
+              </span>
           </form>
         <div :style="{display: isResult ? null : 'none'}" v-if="isResult">
           <h3>Вы ответили правильно на количество вопросов: {{ result }}</h3>
         </div>
-
       </div>
   </div>
 </template>
 
 <script>
+import {mapGetters} from 'vuex';
+
 export default {
   name: "riddles-comp",
   data() {
@@ -137,6 +138,9 @@ export default {
     }
 
   },
+  computed: {
+    ...mapGetters(['riddles'])
+  },
   methods: {
     getAnswer1(e) {
       this.answer1 = e.target.value;
@@ -145,7 +149,7 @@ export default {
         this.isBtnClear = false;
         this.wrongAnswer1 = false;
       }
-      if(this.answer1 === 'парта' || this.answer1 === 'кульман') {
+      if(this.answer1 === this.riddles.riddle1.answer[0] || this.answer1 === this.riddles.riddle1.answer[1]) {
         this.answers.push(this.answer1);
       }
     },
@@ -155,7 +159,7 @@ export default {
         this.isBtnAnswer = false;
         this.isBtnClear = false;
       }
-      if(this.answer2 === 'слоник' || this.answer2 === 'слоненок') {
+      if(this.answer2 === this.riddles.riddle2.answer[0] || this.answer2 === this.riddles.riddle2.answer[1]) {
         this.answers.push(this.answer2);
       }
     },
@@ -165,7 +169,7 @@ export default {
         this.isBtnAnswer = false;
         this.isBtnClear = false;
       }
-      if(this.answer3 === '1' || this.answer3 === 'одна') {
+      if(this.answer3 === this.riddles.riddle3.answer[0] || this.answer3 === this.riddles.riddle3.answer[1]) {
         this.answers.push(this.answer3);
       }
     },
@@ -175,7 +179,7 @@ export default {
         this.isBtnAnswer = false;
         this.isBtnClear = false;
       }
-      if(this.answer4 === '50' || this.answer4 === 'пятьдесят') {
+      if(this.answer4 === this.riddles.riddle4.answer[0] || this.answer4 === this.riddles.riddle4.answer[1]) {
         this.answers.push(this.answer4);
       }
     },
@@ -184,10 +188,10 @@ export default {
       this.isResult = true;
       this.isBtnAnswer = true;
 
-      this.wrongAnswer1 = !(this.answer1 === '' || this.answer1 === 'парта' || this.answer1 === 'кульман');
-      this.wrongAnswer2 = !(this.answer2 === '' || this.answer2 === 'слоник' || this.answer2 === 'слоненок');
-      this.wrongAnswer3 = !(this.answer3 === '' || this.answer3 === '1' || this.answer3 === 'одна');
-      this.wrongAnswer4 = !(this.answer4 === '' || this.answer4 === '50' || this.answer4 === 'пятьдесят');
+      this.wrongAnswer1 = !(this.answer1 === '' || this.answer1 === this.riddles.riddle1.answer[0] || this.answer1 === this.riddles.riddle1.answer[1]);
+      this.wrongAnswer2 = !(this.answer2 === '' || this.answer2 === this.riddles.riddle2.answer[0] || this.answer2 === this.riddles.riddle2.answer[1]);
+      this.wrongAnswer3 = !(this.answer3 === '' || this.answer3 === this.riddles.riddle3.answer[0] || this.answer3 === this.riddles.riddle3.answer[1]);
+      this.wrongAnswer4 = !(this.answer4 === '' || this.answer4 === this.riddles.riddle4.answer[0] || this.answer4 === this.riddles.riddle4.answer[1]);
     },
     reset() {
       this.answers = [];
@@ -204,9 +208,7 @@ export default {
 
       this.isResult = false;
       this.isBtnAnswer = true;
-
       this.isBtnClear = true;
-
     }
 
 
@@ -223,41 +225,10 @@ export default {
     //    //console.log('this.answer + i', this.answer + i);
     //  }
     //  console.log('this.count', this.count);
-    //  //console.log('this.answer1: ', this.answer1);
-    //  //console.log('this.answer2: ', this.answer2);
-    //  //console.log('this.answer3: ', this.answer3);
-    //  //console.log('this.answer4: ', this.answer4);
+    //
     //}
   }
 };
-
-
-//if(isset($_GET['userAnswer1']) || isset($_GET['userAnswer2']) || isset($_GET['userAnswer3']) || isset($_GET['userAnswer4'])) {
-
-//$userAnswer = $_GET["userAnswer1"];
-//$score = 0;
-//if($userAnswer == 'парта' || $userAnswer == 'кульман') {
-//  $score++;
-//}
-
-//$userAnswer = $_GET["userAnswer2"];
-//if ($userAnswer == 'слоненок' || $userAnswer == 'слоненок') {
-//  $score++;
-//}
-
-//$userAnswer = $_GET["userAnswer3"];
-//if ($userAnswer == '1' || $userAnswer == 'одна') {
-//  $score++;
-//}
-
-//$userAnswer = $_GET["userAnswer4"];
-//if ($userAnswer == '50' || $userAnswer == 'пятьдесят') {
-//  $score++;
-//}
-
-//echo "Вы угадали загадок: ".$score;
-//
-
 
 </script>
 
@@ -269,10 +240,6 @@ export default {
 .ff_roboto {
   font-family: Roboto, sans-serif;
   font-weight: 100;
-}
-.ff_jura {
-  font-family: Jura, sans-serif;
-  font-weight: 300;
 }
 .ff_nunito {
   font-family: Nunito, sans-serif;
