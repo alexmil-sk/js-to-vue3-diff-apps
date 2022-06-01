@@ -3,7 +3,7 @@
     <h1 class="ff_oi">Генератор паролей</h1>
     <div class="w-750">
       <h4 class="mt-5 ff_nunito fw-bolder">В пароле будут использованы:</h4>
-        <ul class="ff_jura">
+        <ul class="ff_jura fs-4">
           <li>буквы латинского алфавита (a-z, A-Z);</li>
           <li>специальные символы (!,@,#,$,%,&,?,-,+,=,~)</li>
           <li>числа (0-9)</li>
@@ -20,7 +20,7 @@
             />
           </span>
         </label>
-        <div class="input-group input-group-default w-75">
+        <div class="input-group input-group-default w-100">
           <input
               id="userNum"
               type="number"
@@ -33,7 +33,7 @@
               :disabled="isDisabledInput"
           >
           <button
-              class="btn btn-success"
+              class="btn btn-success w-25 text-uppercase fs-5"
               type="button"
               @click="generatePassword"
               :disabled="isDisabledBtnGen"
@@ -45,7 +45,7 @@
             />
           </span>
           <button
-              class="btn btn-danger"
+              class="btn btn-danger w-25 text-uppercase fs-5"
               type="button"
               @click="clear"
               :disabled="isDisabledBtnReset"
@@ -159,7 +159,7 @@ export default {
 }
 .btnHintStart {
   position: absolute;
-  right: 74px;
+  right: 154px;
   top: -4px;
   z-index: 10;
 }

@@ -29,7 +29,7 @@ const routes = [
   {
     path: '/gen-psw',
     name: 'gen-psw',
-    component: () => import('@/components/games/GenPswComp.vue')
+    component: () => import('@/components/diff/GenPswComp.vue')
   },
 ]
 

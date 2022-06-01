@@ -1,5 +1,5 @@
 <template>
-  <nav class="navbar navbar-dark navbar-expand-sm bg-primary">
+  <nav class="navbar navbar-dark navbar-expand-sm bg-primary fs-4">
     <div class="container-fluid">
       <router-link class="navbar-brand " to="/">PORTFOLIO</router-link>
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">

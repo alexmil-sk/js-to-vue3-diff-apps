@@ -106,7 +106,7 @@
 
 <script>
 export default {
-  name: "GuessNumComp.vue",
+  name: "guess-num-comp",
   data() {
     return {
       userAnswer: null,
@@ -169,6 +169,7 @@ export default {
 
     },
     getNumber() {
+      this.tryCount++;
         if ( parseInt(this.userAnswer) === this.answer) {
           this.answerText = 'Поздравляю!!! Вы угадали!';
           this.isDisabledInput = true;
@@ -180,18 +181,16 @@ export default {
           this.answerText = `Ваше число ${this.userAnswer}`
         } else if ( parseInt(this.userAnswer) > this.answer) {
             this.answerText = `Ваше число ${this.userAnswer} слишком большое.`;
-            this.tryCount++;
             this.isBtnExit = false;
             this.isBtnAnswer = true;
             this.isBtnRepeat = true;
             this.chooseText = `Вы имеете попыток: ( ${ this.maxTryCount - parseInt(this.tryCount)} ) из ${this.maxTryCount}`;
         } else if ( parseInt(this.userAnswer) < this.answer) {
-          this.answerText = `Ваше число ( ${this.userAnswer} ) слишком маленькое.`;
-          this.tryCount++;
-          this.isBtnExit = false;
-          this.isBtnAnswer = true;
-          this.isBtnRepeat = true;
-          this.chooseText = `Вы имеете попыток: ( ${ this.maxTryCount - parseInt(this.tryCount)} ) из ${this.maxTryCount}`
+            this.answerText = `Ваше число ( ${this.userAnswer} ) слишком маленькое.`;
+            this.isBtnExit = false;
+            this.isBtnAnswer = true;
+            this.isBtnRepeat = true;
+            this.chooseText = `Вы имеете попыток: ( ${ this.maxTryCount - parseInt(this.tryCount)} ) из ${this.maxTryCount}`
         }
       this.userAnswer = null;
     }

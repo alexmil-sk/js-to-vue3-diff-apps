@@ -1,10 +1,15 @@
 <template>
   <div class="container-fluid  navbar sp-evenly  navbar-dark bg-dark text-info text-center">
-    <span class="text-warning">{{date}}</span>
+    <span class="text-warning text-uppercase fs-5">{{date}}</span>
     <div>
-      <a href="https://geekbrains.ru/" target=" _blank" class="text-light text-decoration-none">Copyright ©
+      <span class="text-light fs-5">Copyright ©
+      </span>
+      <a href="https://geekbrains.ru/" target=" _blank" class="text-uppercase text-decoration-none text-warning ms-3">
+        <span>
+          <img src="@/img/svg/logo.svg" alt="logo"
+          />
+        </span>
       </a>
-      <span class="text-uppercase">GeekBrains</span>
     </div>
   </div>
 </template>

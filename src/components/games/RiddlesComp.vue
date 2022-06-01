@@ -210,23 +210,6 @@ export default {
       this.isBtnAnswer = true;
       this.isBtnClear = true;
     }
-
-
-    //getAnswers() {
-    //  for (let i = 1; i <= 4; i++) {
-    //    if (answer !== '') {
-    //      console.log('answer: ', answer);
-    //      this.count ++;
-    //    } else {
-    //      //continue;
-    //    }
-//
-//
-    //    //console.log('this.answer + i', this.answer + i);
-    //  }
-    //  console.log('this.count', this.count);
-    //
-    //}
   }
 };
 
