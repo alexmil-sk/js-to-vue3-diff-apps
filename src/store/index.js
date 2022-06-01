@@ -1,4 +1,6 @@
 import { createStore } from 'vuex'
+import passGen from "./passGen.js";
+import riddles from "./riddles.js";
 
 export default createStore({
   state: {
@@ -11,5 +13,7 @@ export default createStore({
   actions: {
   },
   modules: {
+    passGen,
+    riddles
   }
 })

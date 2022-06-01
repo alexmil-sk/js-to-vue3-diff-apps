@@ -1,17 +1,104 @@
 <template>
-  <div class="content">
-    <div class="contentWrap">
-      <div class="content">
-        <div class="center">
-          <h1>Игра "Угадай число"</h1>
-          <div class="box" id="gameField">
-            <p id="info">Угадайте число от 0 до 100 (7 попыток).</p>
-            <input type="text" id="userAnswer">
-            <br>
-            <a href="#" onclick="guess()" id="button">Начать</a>
-            <a href="#" onclick="breakGame()" class="breakButton" id="quit">Выйти</a>
-          </div>
+  <div class="container-md">
+    <h1 class="ff_oi">Игра "Угадай число"</h1>
+    <div class="w-50">
+      <h4 class="mt-5 ff_nunito fw-bolder">Угадайте число от 0 до 100</h4>
+      <div class="mt-5 w-50">
+        <div class="mt-4">
+          <label
+              for="userNum"
+              class="form-label fw-bolder ff_nunito fs-5"
+          >{{chooseText}}
+            <span
+                id="guestHint"
+                :style="{display: isDisabledInput ? 'none' : null}"
+                v-tooltip="'Число не может быть меньше 0 и больше 100'"
+            >
+            <img
+                src="@/img/svg/question-circle-fill.svg"
+                alt="question-fill"
+            />
+          </span>
+          </label>
+          <input
+              type="number"
+              v-model.number="userAnswer"
+              @input="getUserAnswer"
+              @keyup.enter="getNumber"
+              class="mt-1 form-control ff_roboto"
+              min="0"
+              max="100"
+              placeholder="Введите число"
+              :disabled="isDisabledInput"
+              v-focus
+          />
         </div>
+      </div>
+      <div>
+        <span class="absolute">
+          <button
+              class="btn btn-primary mt-4 fs-6 text-uppercase"
+              @click="getNumber"
+              :disabled="isBtnAnswer"
+          >
+            <img src="@/img/svg/pencil-square.svg" alt="pencil-square" />
+          Ответить
+          </button>
+            <span
+                id="guest"
+                v-tooltip="'Проверить правильность ответа'"
+                class="btnHintAnswer"
+            >
+              <img
+                  src="@/img/svg/question-circle.svg"
+                  alt="question"
+              />
+            </span>
+        </span>
+        <span class="absolute">
+          <button
+              @click="repeat"
+              :disabled="isBtnRepeat"
+              class="btn btn-success mt-4 ms-2 fs-6 text-uppercase"
+
+          >
+            {{userAnswer ? 'Очистить' : 'Повторить'}}
+          </button>
+          <span
+              id="guest"
+              v-tooltip="'Очистить форму / Новый раунд'"
+              class="btnHintReset"
+          >
+          <img
+              src="@/img/svg/question-circle.svg"
+              alt="question"
+          />
+          </span>
+        </span>
+        <span class="absolute">
+          <button
+            @click="breakGame"
+            :disabled="isBtnExit"
+            class="btn btn-danger mt-4 ms-2 fs-6 text-uppercase"
+
+          >
+            Выйти
+          </button>
+          <span
+            id="guest"
+            v-tooltip="'Узнать правильный ответ'"
+            class="btnHintReset"
+          >
+          <img
+            src="@/img/svg/question-circle.svg"
+            alt="question"
+          />
+          </span>
+        </span>
+      </div>
+      <div class="mt-4" v-if="isDisabledInput || answerText">
+        <h4 class="ff_roboto">{{answerText}}</h4>
+        <h4 class="ff_roboto">{{finishText}}</h4>
       </div>
     </div>
   </div>
@@ -22,63 +109,144 @@ export default {
   name: "GuessNumComp.vue",
   data() {
     return {
-      answer: parseInt(Math.random() * 100),
+      userAnswer: null,
+      answer: parseInt((Math.random() * 100).toFixed()),
       tryCount: 0,
       maxTryCount: 7,
+      chooseText: '',
+      answerText: '',
+      finishText: '',
+      isDisabledInput: false,
+      isBtnRepeat: true,
+      isBtnAnswer: true,
+      isBtnExit: true,
     }
   },
+  mounted() {
+    this.chooseText = `Вы имеете попыток: ( ${ this.maxTryCount - parseInt(this.tryCount)} ) из ${this.maxTryCount}`;
+  },
   methods: {
-    breakGame() {
-      write("Выход выполнен!<br>Правильным ответом было число " + this.answer);
-      hide("button");
-      hide("userAnswer");
-      hide("quit");
-    },
-
-    readInt() {
-      let number = document.getElementById("userAnswer").value;
-      return parseInt(number);
-    },
-
-    write(text) {
-      document.getElementById("info").innerHTML = text;
-    },
-
-    hide(id) {
-      document.getElementById(id).style.visibility = "hidden";
-    },
-
-    guess() {
-      this.tryCount++;
-      let userAnswer = readInt();
-      if (userAnswer == this.answer) {
-        write("<strong>Поздравляю!!!Вы угадали!</strong>");
-        hide("button");
-        hide("userAnswer");
-        hide("quit");
-      } else if (tryCount == maxTryCount) {
-        write("К сожалению, попыток больше не осталось.<br>Правильным ответом было число " + answer);
-        hide("button");
-        hide("userAnswer");
-        hide("quit");
-      } else if (userAnswer > answer) {
-        write("Ваше число <strong>" + userAnswer + "</strong> слишком <strong>большое</strong>.Попробуйте еще раз.");
-      } else if (userAnswer < answer) {
-        write("Ваше число <strong>" + userAnswer + "</strong> слишком <strong>маленькое</strong>.Попробуйте еще раз.");
+    getUserAnswer(e) {
+      if( parseInt(this.userAnswer) < 0) {
+          this.answerText = 'Значение не может быть отрицательным!';
+          this.isDisabledInput = true;
+          this.isBtnAnswer = true;
+          this.isBtnExit = false;
+          this.isBtnRepeat = true;
+      } else if ( parseInt(this.userAnswer) > 100) {
+          this.answerText = 'Значение не может быть больше 100!';
+          this.isDisabledInput = true;
+          this.isBtnAnswer = true;
+          this.isBtnExit = false;
+          this.isBtnRepeat = true;
       } else {
-        write("Вы <strong>не ввели</strong> число!.Попробуйте еще раз.");
+          this.userAnswer = e.target.value;
+          this.isBtnAnswer = false;
+          this.isBtnRepeat = false;
+          this.isBtnExit = false;
+      }
+    },
+    breakGame() {
+      this.userAnswer = null;
+      this.chooseText = 'Выход выполнен!';
+      this.answerText = `Правильным ответом было число: ( ${this.answer} )`;
+      this.isDisabledInput = true;
+      this.isBtnRepeat = false;
+      this.isBtnAnswer = true;
+      this.isBtnExit = true;
+      this.answer = parseInt((Math.random() * 100).toFixed());
+    },
+
+    repeat() {
+      this.userAnswer = null;
+      this.answerText = '';
+      this.tryCount = 0;
+      this.chooseText = `Вы имеете попыток: ( ${ this.maxTryCount - parseInt(this.tryCount)} ) из ${this.maxTryCount}`;
+      this.isDisabledInput = false;
+      this.isBtnAnswer = true;
+      this.isBtnRepeat = true;
+      this.isBtnExit = true;
+
+    },
+    getNumber() {
+        if ( parseInt(this.userAnswer) === this.answer) {
+          this.answerText = 'Поздравляю!!! Вы угадали!';
+          this.isDisabledInput = true;
+          this.isBtnAnswer = true;
+          this.isBtnExit = true;
+          this.answer = parseInt((Math.random() * 100).toFixed());
+
+        } else if (this.tryCount - this.maxTryCount === 0) {
+          this.answerText = `Ваше число ${this.userAnswer}`
+        } else if ( parseInt(this.userAnswer) > this.answer) {
+            this.answerText = `Ваше число ${this.userAnswer} слишком большое.`;
+            this.tryCount++;
+            this.isBtnExit = false;
+            this.isBtnAnswer = true;
+            this.isBtnRepeat = true;
+            this.chooseText = `Вы имеете попыток: ( ${ this.maxTryCount - parseInt(this.tryCount)} ) из ${this.maxTryCount}`;
+        } else if ( parseInt(this.userAnswer) < this.answer) {
+          this.answerText = `Ваше число ( ${this.userAnswer} ) слишком маленькое.`;
+          this.tryCount++;
+          this.isBtnExit = false;
+          this.isBtnAnswer = true;
+          this.isBtnRepeat = true;
+          this.chooseText = `Вы имеете попыток: ( ${ this.maxTryCount - parseInt(this.tryCount)} ) из ${this.maxTryCount}`
+        }
+      this.userAnswer = null;
+    }
+  },
+  watch: {
+    tryCount() {
+      if(this.tryCount - this.maxTryCount === 0) {
+        this.finishText = `К сожалению, попыток больше не осталось. Правильным ответом было число ( ${this.answer} )`;
+        this.isDisabledInput = true;
+        this.isBtnAnswer = true;
+        this.isBtnExit = true;
+        this.isBtnRepeat = false;
+        this.answer = parseInt((Math.random() * 100).toFixed());
       }
     }
-  }
-
-
-
-
+  },
 }
 
 
 </script>
 
 <style scoped>
-
+.ff_oi {
+  font-family: Oi, sans-serif;
+  font-weight: 400;
+}
+.ff_roboto {
+  font-family: Roboto, sans-serif;
+  font-weight: 100;
+}
+.ff_nunito {
+  font-family: Nunito, sans-serif;
+  font-weight: 400;
+}
+.absolute {
+  position: relative;
+}
+.btnHintAnswer {
+  position: absolute;
+  right: 2px;
+  top: 2px;
+  z-index: 10;
+  cursor: pointer;
+}
+.btnHintReset {
+  position: absolute;
+  right: 2px;
+  top: 2px;
+  z-index: 10;
+  cursor: pointer;
+}
+.btn {
+  width: 150px!important;
+}
+#guestHint {
+  cursor: pointer;
+}
 </style>

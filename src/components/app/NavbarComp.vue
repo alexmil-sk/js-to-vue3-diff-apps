@@ -22,8 +22,8 @@
             </a>
             <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
               <li><router-link class="dropdown-item" to="/riddles">Загадки</router-link></li>
-              <li><router-link class="dropdown-item" to="/guess-one">Угадайка</router-link></li>
-              <li><router-link class="dropdown-item" to="/guess-two">Угадайка мультиплеер</router-link></li>
+              <li><router-link class="dropdown-item" to="/guess-one">Угадай число</router-link></li>
+              <li><router-link class="dropdown-item" to="/guess-two">Угадай число мультиплеер</router-link></li>
             </ul>
           </li>
           <li class="nav-item dropdown">
