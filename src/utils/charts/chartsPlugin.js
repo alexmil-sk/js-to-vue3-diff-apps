@@ -105,11 +105,7 @@ export default {
 
             // ===== FUNCTIONS =================================================
 
-            function setHistoryCandles(symbol, interval) {
 
-
-            }
-            setHistoryCandles('btcusdt', '1m');
 
 
 
