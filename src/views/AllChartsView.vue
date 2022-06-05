@@ -5,6 +5,9 @@
 
     <div class=" d-inline-flex flex-wrap justify-content-center w-100 mt-3">
       <ChartCryptoComp/>
+      <ChartCryptoComp/>
+      <ChartCryptoComp/>
+      <ChartCryptoComp/>
     </div>
   </div>
 </template>
@@ -21,22 +24,6 @@ export default {
 
   methods: {
 
-
-
-   //getCryptoCoin() {
-
-   //  const obj = {
-   //    title: this.coinInput.split('-').join(' | '),
-   //    value: this.coinInput.split('-').join('')
-   //  }
-   //  this.cryptoCurrenciesAll.unshift(obj);
-
-   //  localStorage.setItem('cryptoCurrenciesAll', JSON.stringify(this.cryptoCurrenciesAll));
-   //  this.arrUser = JSON.parse(localStorage.getItem('cryptoCurrenciesAll'))
-
-   //  console.log('arrUser', this.arrUser)
-   //  this.coinInput = '';
-   //}
 
   },
   mounted() {

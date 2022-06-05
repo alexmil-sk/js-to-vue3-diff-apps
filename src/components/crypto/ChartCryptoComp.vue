@@ -1,7 +1,7 @@
 <template>
-  <div class="d-flex flex-column w-100">
-    <div class="input-group d-flex flex-column mt-3  mb-3 w-50">
-      <label for="coinInput" class="fs-5">Введите желаемую пару в формате: BTC-USDT</label>
+  <div class="d-flex flex-column w-50 mt-4 border-top border-secondary">
+    <div class="input-group d-flex flex-column mt-3  mb-3 w-75">
+      <label for="coinInput" class="fs-5">Введите пару в формате: BTC-USDT</label>
       <div class="d-flex">
         <input
             id="coinInput"
@@ -21,7 +21,7 @@
       </div>
     </div>
     <div
-        class="w-50 pb-2"
+        class="w-100 pb-2"
         style="min-width: 436px;"
         :style="{backgroundColor: colorSpan()}"
     >
