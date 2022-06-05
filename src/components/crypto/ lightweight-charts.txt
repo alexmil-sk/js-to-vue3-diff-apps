@@ -1,0 +1,23 @@
+
+
+==========================================
+VUE 3
+
+https://www.npmjs.com/package/trading-vue3-js
+
+NPM: npm i trading-vue-js
+
+CDN: <script src="trading-vue.min.js"></script>
+
+
+============================================
+
+ТОЛЬКО HTML + JS
+
+https://github.com/tradingview/lightweight-charts
+
+CDN: https://unpkg.com/lightweight-charts/dist/lightweight-charts.standalone.production.js
+
+NPM: npm install lightweight-charts
+
+=============================================

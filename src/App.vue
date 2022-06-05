@@ -2,7 +2,7 @@
   <div class="container border-box">
     <NavbarComp />
     <div class="height100vh">
-    <router-view/>
+    <RouterView/>
     </div>
     <FooterComp />
   </div>

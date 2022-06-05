@@ -32,7 +32,7 @@
             </a>
             <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
               <li><router-link class="dropdown-item" to="/gen-psw">Генератор паролей</router-link></li>
-              <li><a class="dropdown-item" href="#">Пусто</a></li>
+              <li><router-link class="dropdown-item" to="/charts">Графики Криптовалюты</router-link></li>
               <li><a class="dropdown-item" href="#">Пусто</a></li>
             </ul>
           </li>
