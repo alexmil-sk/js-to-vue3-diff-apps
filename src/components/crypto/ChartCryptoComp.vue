@@ -75,7 +75,6 @@
             style="min-height: 100%; margin-top: 32px"
             :class="isOpenedChart ? 'bg-danger' : 'bg-warning'"
             @click="openWindowChart"
-            disabled
         >
           <img src="@/img/svg/zoom-out.svg" alt="zoom-out.svg" v-if="isOpenedChart"/>
           <img src="@/img/svg/zoom-in.svg" alt="zoom-in.svg" v-else/>
@@ -96,7 +95,7 @@
 
       <div class="wrapper-chart-trades d-flex flex-row flex-wrap justify-content-center w-100">
 
-        <div :id="`${chartNumber}`" class="chart"></div>
+        <div :id="`${chartNumber}`" class="chart" :style="isOpenedChart ? styleScaleUp : styleScaleDown "></div>
 
         <div class="trades">
 
@@ -141,25 +140,6 @@ export default {
     return {
       chartNumber: Math.random(),
       bgChartColor: '',
-      //cryptoCurrencies: [
-      //{
-      //  title: 'BTC - BUSD',
-      //  value: 'BTCBUSD'
-      //},
-      //{
-      //  title: 'ETH - BUSD',
-      //  value: 'ETHBUSD'
-      //},
-      //{
-      //  title:'BNB - BUSD',
-      //  value: 'BNBBUSD'
-      //},
-      //{
-      //  title: 'XRP - BUSD',
-      //  value: 'XRPBUSD'
-      //}
-      //],
-
       cryptoCurrencies:
           JSON.parse(localStorage.getItem('cryptoCurrencies')) ||
           [{title: 'BTC | USDT', value: 'BTCUSDT'}],
@@ -172,6 +152,9 @@ export default {
       isDownloadedChart: false,
       isDownloadedGlass: false,
       isOpenedChart: false,
+      //styleScale: 'position: absolute; top: -12px; left: -10px; transform: scale(1.6);',
+      styleScaleUp: 'position: relative; top: -12px; left: -16px; transform: scale(1.63); transition: all 1s ease 0s',
+      styleScaleDown: 'position: relative; top: 0; left: 0; transform: scale(1);transition: all 1s ease 0s',
 
       coinInput: '',
 
