@@ -34,7 +34,7 @@ const routes = [
   {
     path: '/charts',
     name: 'charts',
-    component: () => import('@/components/crypto/ChartsCrypto.vue')
+    component: () => import('@/views/AllChartsView.vue')
   },
 ]
 

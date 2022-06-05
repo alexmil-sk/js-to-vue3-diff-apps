@@ -1,0 +1,21 @@
+// -2. Получение криптовалюты пользователя из инпута
+    coinValue(e) {
+      this.coinInput = e.target.value;
+    },
+  // -1 Занесение валюты пользователя в массив криптовалют
+  getCryptoCoin() {
+
+       const obj = {
+         title: this.coinInput.split('-').join(' | '),
+         value: this.coinInput.split('-').join('')
+       }
+       // Вносим полученный запрос пользователя в массив
+       this.cryptoCurrencies.unshift(obj);
+        // Заносим в localStorage массив в виде json-файла
+       localStorage.setItem('cryptoCurrencies', JSON.stringify(this.cryptoCurrencies));
+
+    //this.cryptoCurrencies = JSON.parse(localStorage.getItem('cryptoCurrencies'))
+
+      // console.log('this.cryptoCurrencies', this.cryptoCurrencies)
+       this.coinInput = '';
+      },
