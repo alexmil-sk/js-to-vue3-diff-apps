@@ -1,7 +1,7 @@
 <template>
   <div class="d-flex flex-column w-100">
     <div class="input-group d-flex flex-column mt-3  mb-3 w-50">
-      <label for="coinInput">Формат ввода пары: BTC-USDT</label>
+      <label for="coinInput" class="fs-5">Введите желаемую пару в формате: BTC-USDT</label>
       <div class="d-flex">
         <input
             id="coinInput"
@@ -27,7 +27,7 @@
     >
       <div class="container-lg w-100 d-flex flex-row justify-content-start mt-3 ms-0 mb-3">
         <div class="text-center w-50">
-          <label class="mb-2 text-uppercase">криптопара</label>
+          <label class="mb-2 text-uppercase text-bold">криптопара</label>
           <select
               class="form-select"
               @change="getCoin"
