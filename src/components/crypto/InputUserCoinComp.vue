@@ -23,6 +23,9 @@
 </template>
 
 <script>
+
+
+
 export default {
   name: "input-user-coin-comp",
   data() {

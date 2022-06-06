@@ -45,36 +45,14 @@
           </select>
         </div>
 
-        <button
-            class="btn btn-secondary w-25 ms-2 mr-2"
-            style="min-height: 100%; margin-top: 32px"
-            :class="isDownloadedChart ? 'bg-danger' : 'bg-success'"
-            @click="downloadChart"
-        >
-          <img src="@/img/svg/cloud-download-fill.svg" alt="cloud-download-fill.svg" v-if="isDownloadedChart"/>
-          <img src="@/img/svg/cloud-download.svg" alt="cloud-download.svg" v-else/>
-        </button>
-
-        <button
-            class="btn btn-secondary w-25 ms-2 mr-2"
-            style="min-height: 100%; margin-top: 32px"
-            :class="isOpenedChart ? 'bg-danger' : 'bg-warning'"
-            @click="openWindowChart"
-        >
-          <img src="@/img/svg/zoom-out.svg" alt="zoom-out.svg" v-if="isOpenedChart"/>
-          <img src="@/img/svg/zoom-in.svg" alt="zoom-in.svg" v-else/>
-        </button>
-
-        <button
-            class="btn btn-secondary w-25 ms-2 mr-2"
-            style="min-height: 100%; margin-top: 32px;"
-            :class="isDownloadedGlass ? 'bg-danger' : 'bg-success'"
-            @click="getTradesGlass"
-        >
-          <img src="@/img/svg/cart-dash.svg" alt="cart-dash.svg" v-if="isDownloadedGlass"/>
-          <img src="@/img/svg/cart-plus.svg" alt="cart-plus.svg" v-else/>
-
-        </button>
+        <ManualButtonsComp
+            :isDownloadedChart="isDownloadedChart"
+            :isOpenedChart="isOpenedChart"
+            :isDownloadedGlass="isDownloadedGlass"
+            @downloadChart="downloadChart"
+            @openWindowChart="openWindowChart"
+            @getTradesGlass="getTradesGlass"
+        />
 
       </div>
 
@@ -119,11 +97,13 @@
 <script>
 import { createChart } from 'lightweight-charts';
 import InputUserCoinComp from "@/components/crypto/InputUserCoinComp.vue";
+import ManualButtonsComp from '@/components/crypto/ManualButtonsComp.vue';
 
 export default {
   name: "chart-crypto-comp",
   components: {
-    InputUserCoinComp
+    InputUserCoinComp,
+    ManualButtonsComp
   },
   data() {
     return {
