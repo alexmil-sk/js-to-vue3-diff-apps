@@ -1,33 +1,18 @@
 <template>
-  <div class="d-flex flex-column w-100">
-    <div class="input-group d-flex flex-column mt-3  mb-3 w-50">
-      <label for="coinInput">Формат ввода пары: BTC-USDT</label>
-      <div class="d-flex">
-        <input
-            id="coinInput"
-            type="text"
-            class="form-control mt-2"
-            placeholder="Пользовательская криптовалютная пара"
-            v-model="coinInput"
-            v-focus
-            @keyup.enter.prevent="getCryptoCoin"
-            @input="coinValue"
-        />
-
-        <button
-            class="btn btn-secondary btn-outline-secondary text-white"
-            @click="getCryptoCoin"
-        >Подтвердить</button>
-      </div>
-    </div>
+  <div class="d-flex flex-column w-50 mt-4 border-top border-secondary">
+    <InputUserCoinComp
+        @getCryptoCoin="getCryptoCoin"
+        :coinInput="coinInput"
+        @coinValue="coinValue"
+    />
     <div
-        class="w-50 pb-2"
+        class="w-100 pb-2"
         style="min-width: 436px;"
         :style="{backgroundColor: colorSpan()}"
     >
       <div class="container-lg w-100 d-flex flex-row justify-content-start mt-3 ms-0 mb-3">
         <div class="text-center w-50">
-          <label class="mb-2 text-uppercase">криптопара</label>
+          <label class="mb-2 text-uppercase text-bold">криптопара</label>
           <select
               class="form-select"
               @change="getCoin"
@@ -60,43 +45,20 @@
           </select>
         </div>
 
-        <button
-            class="btn btn-secondary w-25 ms-2 mr-2"
-            style="min-height: 100%; margin-top: 32px"
-            :class="isDownloadedChart ? 'bg-danger' : 'bg-success'"
-            @click="downloadChart"
-        >
-          <img src="@/img/svg/cloud-download-fill.svg" alt="cloud-download-fill.svg" v-if="isDownloadedChart"/>
-          <img src="@/img/svg/cloud-download.svg" alt="cloud-download.svg" v-else/>
-        </button>
-
-        <button
-            class="btn btn-secondary w-25 ms-2 mr-2"
-            style="min-height: 100%; margin-top: 32px"
-            :class="isOpenedChart ? 'bg-danger' : 'bg-warning'"
-            @click="openWindowChart"
-            disabled
-        >
-          <img src="@/img/svg/zoom-out.svg" alt="zoom-out.svg" v-if="isOpenedChart"/>
-          <img src="@/img/svg/zoom-in.svg" alt="zoom-in.svg" v-else/>
-        </button>
-
-        <button
-            class="btn btn-secondary w-25 ms-2 mr-2"
-            style="min-height: 100%; margin-top: 32px;"
-            :class="isDownloadedGlass ? 'bg-danger' : 'bg-success'"
-            @click="getTradesGlass"
-        >
-          <img src="@/img/svg/cart-dash.svg" alt="cart-dash.svg" v-if="isDownloadedGlass"/>
-          <img src="@/img/svg/cart-plus.svg" alt="cart-plus.svg" v-else/>
-
-        </button>
+        <ManualButtonsComp
+            :isDownloadedChart="isDownloadedChart"
+            :isOpenedChart="isOpenedChart"
+            :isDownloadedGlass="isDownloadedGlass"
+            @downloadChart="downloadChart"
+            @openWindowChart="openWindowChart"
+            @getTradesGlass="getTradesGlass"
+        />
 
       </div>
 
       <div class="wrapper-chart-trades d-flex flex-row flex-wrap justify-content-center w-100">
 
-        <div :id="`${chartNumber}`" class="chart"></div>
+        <div :id="`${chartNumber}`" class="chart" :style="isOpenedChart ? styleScaleUp : styleScaleDown "></div>
 
         <div class="trades">
 
@@ -134,35 +96,26 @@
 
 <script>
 import { createChart } from 'lightweight-charts';
+import InputUserCoinComp from "@/components/crypto/InputUserCoinComp.vue";
+import ManualButtonsComp from '@/components/crypto/ManualButtonsComp.vue';
 
 export default {
   name: "chart-crypto-comp",
+  components: {
+    InputUserCoinComp,
+    ManualButtonsComp
+  },
   data() {
     return {
       chartNumber: Math.random(),
       bgChartColor: '',
-      //cryptoCurrencies: [
-      //{
-      //  title: 'BTC - BUSD',
-      //  value: 'BTCBUSD'
-      //},
-      //{
-      //  title: 'ETH - BUSD',
-      //  value: 'ETHBUSD'
-      //},
-      //{
-      //  title:'BNB - BUSD',
-      //  value: 'BNBBUSD'
-      //},
-      //{
-      //  title: 'XRP - BUSD',
-      //  value: 'XRPBUSD'
-      //}
-      //],
-
       cryptoCurrencies:
           JSON.parse(localStorage.getItem('cryptoCurrencies')) ||
-          [{title: 'BTC | USDT', value: 'BTCUSDT'}],
+          [
+              {title: 'BTCUSDT', value: 'BTCUSDT'},
+              {title: 'BNBBTC', value: 'BTCUSDT'},
+              {title: 'XRPUSDT', value: 'BTCUSDT'}
+          ],
 
       cryptoIntervals: ['1m', '15m','1h','4h','1d'],
       selectCoin: '',
@@ -172,6 +125,8 @@ export default {
       isDownloadedChart: false,
       isDownloadedGlass: false,
       isOpenedChart: false,
+      styleScaleUp: 'position: relative; top: -12px; left: -16px; transform: scale(1.63); transition: all 1s ease 0s',
+      styleScaleDown: 'position: relative; top: 0; left: 0; transform: scale(1);transition: all 1s ease 0s',
 
       coinInput: '',
 
@@ -185,15 +140,16 @@ export default {
   },
   methods: {
   // -2. Получение криптовалюты пользователя из инпута
-    coinValue(e) {
-      this.coinInput = e.target.value;
+    coinValue(coinInput) {
+      this.coinInput = coinInput;
     },
     // -1 Занесение валюты пользователя в массив криптовалют
     getCryptoCoin() {
 
       const obj = {
-        title: this.coinInput.split('-').join(' | '),
-        value: this.coinInput.split('-').join('')
+        //title: this.coinInput.split('-').join(' | '),
+        title: this.coinInput.toUpperCase(),
+        value: this.coinInput.toUpperCase()
       }
       // Вносим полученный запрос пользователя в массив
       this.cryptoCurrencies.unshift(obj);
@@ -203,11 +159,7 @@ export default {
       //this.cryptoCurrencies = JSON.parse(localStorage.getItem('cryptoCurrencies'))
 
       // console.log('this.cryptoCurrencies', this.cryptoCurrencies)
-      this.coinInput = '';
     },
-
-
-
 
     // 0. Раскрашивание фона Графика в рандомные цвета
     colorSpan() {

@@ -29,6 +29,7 @@
               placeholder="Введите двузначное число"
               v-model="userNum"
               v-focus
+              @keyup.enter="generatePassword"
               @input="inputChange"
               :disabled="isDisabledInput"
           >

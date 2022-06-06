@@ -2,41 +2,37 @@
   <div>
     <h1>Графики криптовалюты (BINANCE / Спот)</h1>
 
+    <ChartWindowQuantity @selectChartsQuantity="selectChartsQuantity"/>
+
 
     <div class=" d-inline-flex flex-wrap justify-content-center w-100 mt-3">
-      <ChartCryptoComp/>
+          <ChartCryptoComp v-for=" (item, idx) in chartsQuantity" />
     </div>
+
   </div>
 </template>
 
 <script>
 import ChartCryptoComp from '@/components/crypto/ChartCryptoComp.vue';
-
+import ChartWindowQuantity from '@/components/crypto/ChartWindowQuantity.vue';
 
 export default {
   name: "all-charts-view",
   components: {
     ChartCryptoComp,
+    ChartWindowQuantity
   },
-
+  data() {
+    return {
+      chartsQuantity: 1,
+      visible: true,
+    }
+  },
   methods: {
-
-
-
-   //getCryptoCoin() {
-
-   //  const obj = {
-   //    title: this.coinInput.split('-').join(' | '),
-   //    value: this.coinInput.split('-').join('')
-   //  }
-   //  this.cryptoCurrenciesAll.unshift(obj);
-
-   //  localStorage.setItem('cryptoCurrenciesAll', JSON.stringify(this.cryptoCurrenciesAll));
-   //  this.arrUser = JSON.parse(localStorage.getItem('cryptoCurrenciesAll'))
-
-   //  console.log('arrUser', this.arrUser)
-   //  this.coinInput = '';
-   //}
+    selectChartsQuantity(n) {
+      this.chartsQuantity = Number(n);
+      this.visible = true;
+    },
 
   },
   mounted() {
@@ -48,6 +44,15 @@ export default {
 </script>
 
 <style scoped>
+
+.fade-enter-active,
+.fade-leave-active {
+  transition:   opacity 1s cubic-bezier(1.0, 0.5, 0.8, 1.0);
+}
+.fade-enter, .fade-leave-to
+  /* .slide-fade-leave-active до версии 2.1.8 */ {
+  opacity: 0;
+}
 
 
 
