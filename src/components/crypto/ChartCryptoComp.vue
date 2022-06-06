@@ -1,26 +1,10 @@
 <template>
   <div class="d-flex flex-column w-50 mt-4 border-top border-secondary">
-    <div class="input-group d-flex flex-column mt-3  mb-3 w-75">
-      <label for="coinInput" class="fs-5">Введите пару в формате: BTC-USDT</label>
-      <div class="d-flex align-items-end " style="height: 52px;">
-        <input
-            id="coinInput"
-            type="text"
-            class="form-control mt-2"
-            placeholder="Пользовательская криптовалютная пара"
-            v-model="coinInput"
-            v-focus
-            @keyup.enter.prevent="getCryptoCoin"
-            @input="coinValue"
-        />
-
-        <button
-            class="btn btn-secondary btn-outline-secondary text-white text-uppercase"
-            @click="getCryptoCoin"
-        >Подтвердить
-        </button>
-      </div>
-    </div>
+    <InputUserCoinComp
+        @getCryptoCoin="getCryptoCoin"
+        :coinInput="coinInput"
+        @coinValue="coinValue"
+    />
     <div
         class="w-100 pb-2"
         style="min-width: 436px;"
@@ -134,9 +118,13 @@
 
 <script>
 import { createChart } from 'lightweight-charts';
+import InputUserCoinComp from "@/components/crypto/InputUserCoinComp.vue";
 
 export default {
   name: "chart-crypto-comp",
+  components: {
+    InputUserCoinComp
+  },
   data() {
     return {
       chartNumber: Math.random(),
@@ -153,7 +141,6 @@ export default {
       isDownloadedChart: false,
       isDownloadedGlass: false,
       isOpenedChart: false,
-      //styleScale: 'position: absolute; top: -12px; left: -10px; transform: scale(1.6);',
       styleScaleUp: 'position: relative; top: -12px; left: -16px; transform: scale(1.63); transition: all 1s ease 0s',
       styleScaleDown: 'position: relative; top: 0; left: 0; transform: scale(1);transition: all 1s ease 0s',
 
@@ -169,8 +156,8 @@ export default {
   },
   methods: {
   // -2. Получение криптовалюты пользователя из инпута
-    coinValue(e) {
-      this.coinInput = e.target.value;
+    coinValue(coinInput) {
+      this.coinInput = coinInput;
     },
     // -1 Занесение валюты пользователя в массив криптовалют
     getCryptoCoin() {
@@ -187,11 +174,7 @@ export default {
       //this.cryptoCurrencies = JSON.parse(localStorage.getItem('cryptoCurrencies'))
 
       // console.log('this.cryptoCurrencies', this.cryptoCurrencies)
-      this.coinInput = '';
     },
-
-
-
 
     // 0. Раскрашивание фона Графика в рандомные цвета
     colorSpan() {
