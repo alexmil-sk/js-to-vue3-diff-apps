@@ -1,16 +1,19 @@
 <template>
-  <div class="input-group d-flex flex-column mt-3  mb-3 w-75">
-    <label for="coinInput" class="fs-5">Введите пару в формате: BTC-USDT</label>
-    <div class="d-flex align-items-end " style="height: 52px;">
+  <div class="input-group d-flex flex-column mt-3  mb-4 w-75">
+    <label for="coinInput" class="fs-5">Введите пару в формате: BTCUSDT</label>
+    <div class="d-flex align-items-end" style="height: 52px;">
       <input
           id="coinInput"
           type="text"
-          class="form-control mt-2"
+          class="form-control mt-2  position-relative"
           placeholder="Пользовательская криптовалютная пара"
           v-model="coinInput"
-          v-focus
           @keyup.enter.prevent="getCryptoCoin"
           @input="$emit('coinValue',coinInput)"
+          :class="{error:
+          (v$.coinInput.$dirty && v$.coinInput.required.$invalid) ||
+          (v$.coinInput.$dirty && v$.coinInput.alpha.$invalid)
+          }"
       />
 
       <button
@@ -19,23 +22,50 @@
       >Подтвердить
       </button>
     </div>
+    <small
+        class="text-danger text-uppercase mt-1"
+        style="position: absolute; top: 80px;"
+        v-if="v$.coinInput.$dirty && v$.coinInput.required.$invalid"
+    >Поле не заполнено!
+    </small>
+    <small
+        class="text-danger text-uppercase mt-1"
+        style="position: absolute; top: 80px;"
+        v-if="v$.coinInput.$dirty && v$.coinInput.alpha.$invalid"
+    >Поле должно содержать только латинские буквы!
+    </small>
   </div>
 </template>
 
 <script>
-
+import useVuelidate from '@vuelidate/core'
+import { required, alpha } from '@vuelidate/validators'
 
 
 export default {
   name: "input-user-coin-comp",
-  data() {
+  emits: ['getCryptoCoin', 'coinValue'],
+  setup() {
     return {
-      coinInput: ''
+      v$: useVuelidate()
     }
   },
-  emits: ['getCryptoCoin', 'coinValue'],
+  data() {
+    return {
+      coinInput: '',
+    }
+  },
+  validations() {
+    return {
+      coinInput: {required, alpha}
+    }
+  },
   methods: {
     getCryptoCoin() {
+      if (this.v$.$invalid) {
+        this.v$.$touch(); //,_Активизирует валидацию
+        return;
+      }
       this.$emit('getCryptoCoin')
       this.coinInput = '';
     }
@@ -44,5 +74,7 @@ export default {
 </script>
 
 <style scoped>
-
+.error {
+  border: 1px solid red;
+}
 </style>

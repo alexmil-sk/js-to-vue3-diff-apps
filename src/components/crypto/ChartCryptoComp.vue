@@ -111,7 +111,11 @@ export default {
       bgChartColor: '',
       cryptoCurrencies:
           JSON.parse(localStorage.getItem('cryptoCurrencies')) ||
-          [{title: 'BTC | USDT', value: 'BTCUSDT'}],
+          [
+              {title: 'BTCUSDT', value: 'BTCUSDT'},
+              {title: 'BNBBTC', value: 'BTCUSDT'},
+              {title: 'XRPUSDT', value: 'BTCUSDT'}
+          ],
 
       cryptoIntervals: ['1m', '15m','1h','4h','1d'],
       selectCoin: '',
@@ -143,8 +147,9 @@ export default {
     getCryptoCoin() {
 
       const obj = {
-        title: this.coinInput.split('-').join(' | '),
-        value: this.coinInput.split('-').join('')
+        //title: this.coinInput.split('-').join(' | '),
+        title: this.coinInput.toUpperCase(),
+        value: this.coinInput.toUpperCase()
       }
       // Вносим полученный запрос пользователя в массив
       this.cryptoCurrencies.unshift(obj);
