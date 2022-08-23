@@ -113,8 +113,6 @@ export default {
           JSON.parse(localStorage.getItem('cryptoCurrencies')) ||
           [
               {title: 'BTCUSDT', value: 'BTCUSDT'},
-              {title: 'BNBBTC', value: 'BTCUSDT'},
-              {title: 'XRPUSDT', value: 'BTCUSDT'}
           ],
 
       cryptoIntervals: ['1m', '15m','1h','4h','1d'],
