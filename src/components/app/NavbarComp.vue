@@ -78,7 +78,9 @@
               <li>
                 <a class="dropdown-item" href="http://react-redux-ts-persist-shop.webtest-sk.ru/" target="_blank">Mini iShop (React, Redux, Persist, TypeScript)</a>
               </li>
-
+              <li>
+                <a class="dropdown-item" href="http://react-redux-toolkit-ts-router-burger.webtest-sk.ru/" target="_blank">iBurger Shop (React, Router v.6, Redux Toolkit, TypeScript)</a>
+              </li>
             </ul>
           </li>
         </ul>
