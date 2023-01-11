@@ -147,7 +147,7 @@
                   class="dropdown-item"
                   href="http://react-router65-axios-api-coffee.webtest-sk.ru/"
                   target="_blank"
-                  >Coffee Gallery (React, React-Router-Dom v.6.5, axios, firebase-auth v.9, tailwind, mock api)</a
+                  >Coffee Gallery (React, React-Router-Dom v.6.5, localStorage, axios, firebase-auth v.9, tailwind, mock api)</a
                 >
               </li>
               <li>
