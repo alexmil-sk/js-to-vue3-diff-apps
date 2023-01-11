@@ -1,8 +1,8 @@
 <template>
   <div class="container-md">
-    <h1 class="ff_oi">Игра "Угадай число" для двух игроков</h1>
+    <h1 class="ff_oi">Guess the Number game for two players</h1>
     <div class="w-50">
-      <h4 class="mt-5 ff_nunito fw-bolder">Игрок-1 и Игрок-2, угадайте число от 0 до 100.</h4>
+      <h4 class="mt-5 ff_nunito fw-bolder">Player-1 and Player-2, guess the number from 0 to 100.</h4>
       <p
           class="ff_jura fs-4 mt-5"
 
@@ -16,7 +16,7 @@
             <span
                 id="guestHint"
                 :style="{display: isDisabledInput ? 'none' : null}"
-                v-tooltip="'Число не может быть меньше 0 и больше 100'"
+                v-tooltip="'The number cannot be less than 0 and more than 100'"
             >
             <img
                 src="@/img/svg/question-circle-fill.svg"
@@ -32,7 +32,7 @@
               class="mt-1 form-control ff_roboto"
               min="0"
               max="100"
-              placeholder="Введите число"
+              placeholder="Enter a number"
               :disabled="isDisabledInput"
               v-focus
           />
@@ -46,11 +46,11 @@
               :disabled="isBtnAnswer"
           >
             <img src="@/img/svg/pencil-square.svg" alt="pencil-square" />
-          Ответить
+          Answer
           </button>
             <span
                 id="guest"
-                v-tooltip="'Проверить правильность ответа'"
+                v-tooltip="'Check the correctness of the answer'"
                 class="btnHintAnswer"
             >
               <img
@@ -66,11 +66,11 @@
               class="btn btn-success mt-4 ms-2 fs-6 text-uppercase"
 
           >
-            {{userAnswer ? 'Очистить' : 'Повторить'}}
+            {{userAnswer ? 'Clear' : 'Repeat'}}
           </button>
           <span
               id="guest"
-              v-tooltip="'Очистить форму / Новый раунд'"
+              v-tooltip="'Clear the form / New round'"
               class="btnHintReset"
           >
           <img
@@ -86,11 +86,11 @@
               class="btn btn-danger mt-4 ms-2 fs-6 text-uppercase"
 
           >
-            Выйти
+            Exit
           </button>
           <span
               id="guest"
-              v-tooltip="'Узнать правильный ответ'"
+              v-tooltip="'Find out the correct answer'"
               class="btnHintReset"
           >
           <img
@@ -121,7 +121,7 @@ export default {
       tryCount: 0,
       maxTryCount: 14,
       playerNumber: 1,
-      moveText: 'Первым ходит Игрок-1',
+      moveText: 'Player-1 starts first',
       isDisabledInput: false,
       isBtnRepeat: true,
       isBtnAnswer: true,
@@ -129,18 +129,18 @@ export default {
     }
   },
   mounted() {
-    this.chooseText = `У каждого попыток: ( ${Math.floor((this.maxTryCount - this.tryCount) / 2) } ) из ${Math.floor(this.maxTryCount  / 2)  }`;
+    this.chooseText = `Everyone has attempts: ( ${Math.floor((this.maxTryCount - this.tryCount) / 2) } ) from ${Math.floor(this.maxTryCount  / 2)  }`;
   },
   methods: {
     getUserAnswer(e) {
       if (parseInt(this.userAnswer) < 0) {
-        this.answerText = 'Значение не может быть отрицательным!';
+        this.answerText = 'The value cannot be negative!';
         this.isDisabledInput = true;
         this.isBtnAnswer = true;
         this.isBtnExit = false;
         this.isBtnRepeat = true;
       } else if (parseInt(this.userAnswer) > 100) {
-        this.answerText = 'Значение не может быть больше 100!';
+        this.answerText = 'The value cannot be more than 100!';
         this.isDisabledInput = true;
         this.isBtnAnswer = true;
         this.isBtnExit = false;
@@ -155,9 +155,9 @@ export default {
     repeat() {
       this.userAnswer = null;
       this.answerText = '';
-      this.moveText = `Первым ходит Игрок-${this.playerNumber = 1}`;
+      this.moveText = `Goes first Player-${this.playerNumber = 1}`;
       this.tryCount = 0;
-      this.chooseText = `У каждого попыток: ( ${Math.floor((this.maxTryCount - this.tryCount) / 2) } ) из ${Math.floor(this.maxTryCount  / 2)  }`;
+      this.chooseText = `Everyone has attempts: ( ${Math.floor((this.maxTryCount - this.tryCount) / 2) } ) from ${Math.floor(this.maxTryCount  / 2)  }`;
       this.isDisabledInput = false;
       this.isBtnAnswer = true;
       this.isBtnRepeat = true;
@@ -165,9 +165,9 @@ export default {
 
     },
     breakGame() {
-      this.chooseText = 'Выход выполнен!';
-      this.answerText = `Правильным ответом было число: ( ${this.answer} )`;
-      this.moveText = `Первым ходит Игрок-${this.playerNumber = 1}`;
+      this.chooseText = 'The exit is completed!';
+      this.answerText = `The correct answer was a number: ( ${this.answer} )`;
+      this.moveText = `Goes first Player-${this.playerNumber = 1}`;
       this.userAnswer = null;
       this.isDisabledInput = true;
       this.isBtnRepeat = false;
@@ -209,30 +209,30 @@ export default {
   getNumber() {
     this.tryCount++;
     if (parseInt(this.userAnswer) === this.answer) {
-      this.answerText = `Поздравляю, Игрок ( ${this.playerNumber} ) !!! Вы угадали!`;
+      this.answerText = `Congratulations, Player-( ${this.playerNumber} ) !!! You guessed it!`;
           this.isDisabledInput = true;
           this.isBtnAnswer = true;
           this.isBtnExit = true;
           this.answer = parseInt((Math.random() * 100).toFixed());
 
     } else if (this.tryCount - this.maxTryCount === 0) {
-      this.answerText = `Ваше число, , Игрок ( ${this.playerNumber} ), ( ${this.userAnswer} )`;
+      this.answerText = `Your number, Player-${this.playerNumber}, ( ${this.userAnswer} )`;
 
     } else if (parseInt(this.userAnswer) > this.answer) {
-      this.answerText = `Ваше число, Игрок-${this.playerNumber}, ( ${this.userAnswer} ), слишком большое. Очередь следующего игрока...`;
+      this.answerText = `Your number, Player-${this.playerNumber}, ( ${this.userAnswer} ), too big. It's the next player's turn...`;
           this.isBtnExit = false;
           this.isBtnAnswer = true;
           this.isBtnRepeat = true;
 
-      this.chooseText = `Игрок-${this.playerNumber} попыток: ( ${Math.floor((this.maxTryCount - this.tryCount) / 2) } ) из ( ${Math.floor(this.maxTryCount / 2) } )`;
+      this.chooseText = `Player-${this.playerNumber} attempts: ( ${Math.floor((this.maxTryCount - this.tryCount) / 2) } ) from ( ${Math.floor(this.maxTryCount / 2) } )`;
 
     } else if (parseInt(this.userAnswer) < this.answer) {
-      this.answerText = `Ваше число, Игрок-${this.playerNumber}, ( ${this.userAnswer} ) слишком маленькое. Очередь следующего игрока...`;
+      this.answerText = `Your number, Player-${this.playerNumber}, ( ${this.userAnswer} ) too small. It's the next player's turn...`;
           this.isBtnExit = false;
           this.isBtnAnswer = true;
           this.isBtnRepeat = true;
 
-      this.chooseText = `Игрок-${this.playerNumber} попыток: ( ${Math.floor((this.maxTryCount - this.tryCount) / 2) } ) из ( ${Math.floor(this.maxTryCount / 2) } )`;
+      this.chooseText = `Player-${this.playerNumber} attempts: ( ${Math.floor((this.maxTryCount - this.tryCount) / 2) } ) from ( ${Math.floor(this.maxTryCount / 2) } )`;
     }
       this.userAnswer = null;
 
@@ -242,7 +242,7 @@ export default {
       this.playerNumber = 1;
     }
 
-    this.moveText = "Следующий ход ваш: Игрок-" + this.playerNumber;
+    this.moveText = "The next move is yours: Player-" + this.playerNumber;
   },
 
 
@@ -253,7 +253,7 @@ export default {
       tryCount() {
         // if(this.tryCount - this.maxTryCount === 0) {
         if((this.maxTryCount - this.tryCount) / 2 === 0) {
-          this.finishText = `К сожалению, попыток больше не осталось. Правильным ответом было число ( ${this.answer} )`;
+          this.finishText = `Unfortunately, there are no more attempts left. The correct answer was a number: ( ${this.answer} )`;
           this.isDisabledInput = true;
           this.isBtnAnswer = true;
           this.isBtnExit = true;

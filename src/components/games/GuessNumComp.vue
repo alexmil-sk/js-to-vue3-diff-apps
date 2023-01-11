@@ -1,78 +1,70 @@
 <template>
+  <AppBtn class="" @actionRu="langRu" @actionEn="langEn" @actionSk="langSk" />
   <div class="container-md">
-    <h1 class="ff_oi">Игра "Угадай число"</h1>
+    <h1 class="ff_oi">{{$lang('guessNum.mainTitle')}}</h1>
     <div class="w-50">
-      <h4 class="mt-5 ff_nunito fw-bolder">Угадайте число от 0 до 100</h4>
+      <h4 class="mt-5 ff_nunito fw-bolder">{{$lang('guessNum.inputLabel')}}</h4>
       <div class="mt-5 w-50">
         <div class="mt-4">
-          <label
-              for="userNum"
-              class="form-label fw-bolder ff_nunito fs-5"
-          >{{chooseText}}
+          <label for="userNum" class="form-label fw-bolder ff_nunito fs-5"
+            >{{ chooseText }}
             <span
-                id="guestHint"
-                :style="{display: isDisabledInput ? 'none' : null}"
-                v-tooltip="'Число не может быть меньше 0 и больше 100'"
+              id="guestHint"
+              :style="{ display: isDisabledInput ? 'none' : null }"
+              v-tooltip="$lang('guessNum.numberCannotBeLess')"
             >
-            <img
+              <img
                 src="@/img/svg/question-circle-fill.svg"
                 alt="question-fill"
-            />
-          </span>
+              />
+            </span>
           </label>
           <input
-              type="number"
-              v-model.number="userAnswer"
-              @input="getUserAnswer"
-              @keyup.enter="getNumber"
-              class="mt-1 form-control ff_roboto"
-              min="0"
-              max="100"
-              placeholder="Введите число"
-              :disabled="isDisabledInput"
-              v-focus
+            type="number"
+            v-model.number="userAnswer"
+            @input="getUserAnswer"
+            @keyup.enter="getNumber"
+            class="mt-1 form-control ff_roboto"
+            min="0"
+            max="100"
+            :placeholder="$lang('guessNum.placeholder')"
+            :disabled="isDisabledInput"
+            v-focus
           />
         </div>
       </div>
       <div>
         <span class="absolute">
           <button
-              class="btn btn-primary mt-4 fs-6 text-uppercase"
-              @click="getNumber"
-              :disabled="isBtnAnswer"
+            class="btn btn-primary mt-4 fs-6 text-uppercase"
+            @click="getNumber"
+            :disabled="isBtnAnswer"
           >
             <img src="@/img/svg/pencil-square.svg" alt="pencil-square" />
-          Ответить
-          </button>
-            <span
-                id="guest"
-                v-tooltip="'Проверить правильность ответа'"
-                class="btnHintAnswer"
-            >
-              <img
-                  src="@/img/svg/question-circle.svg"
-                  alt="question"
-              />
-            </span>
+						{{ $lang('guessNum.answer') }}
+						</button>
+          <span
+            id="guest"
+            v-tooltip="$lang('guessNum.answerTooltip')"
+            class="btnHintAnswer"
+          >
+            <img src="@/img/svg/question-circle.svg" alt="question" />
+          </span>
         </span>
         <span class="absolute">
           <button
-              @click="repeat"
-              :disabled="isBtnRepeat"
-              class="btn btn-success mt-4 ms-2 fs-6 text-uppercase"
-
+            @click="repeat"
+            :disabled="isBtnRepeat"
+            class="btn btn-success mt-4 ms-2 fs-6 text-uppercase"
           >
-            {{userAnswer ? 'Очистить' : 'Повторить'}}
+            {{ userAnswer ? $lang('guessNum.clear') : $lang('guessNum.repeat') }}
           </button>
           <span
-              id="guest"
-              v-tooltip="'Очистить форму / Новый раунд'"
-              class="btnHintReset"
+            id="guest"
+            v-tooltip="$lang('guessNum.clearTheForm')"
+            class="btnHintReset"
           >
-          <img
-              src="@/img/svg/question-circle.svg"
-              alt="question"
-          />
+            <img src="@/img/svg/question-circle.svg" alt="question" />
           </span>
         </span>
         <span class="absolute">
@@ -80,25 +72,21 @@
             @click="breakGame"
             :disabled="isBtnExit"
             class="btn btn-danger mt-4 ms-2 fs-6 text-uppercase"
-
           >
-            Выйти
+            {{ $lang('guessNum.exit')}}
           </button>
           <span
             id="guest"
-            v-tooltip="'Узнать правильный ответ'"
+            v-tooltip="$lang('guessNum.correctAnswer')"
             class="btnHintReset"
           >
-          <img
-            src="@/img/svg/question-circle.svg"
-            alt="question"
-          />
+            <img src="@/img/svg/question-circle.svg" alt="question" />
           </span>
         </span>
       </div>
       <div class="mt-4" v-if="isDisabledInput || answerText">
-        <h4 class="ff_roboto">{{answerText}}</h4>
-        <h4 class="ff_roboto">{{finishText}}</h4>
+        <h4 class="ff_roboto">{{ answerText }}</h4>
+        <h4 class="ff_roboto">{{ finishText }}</h4>
       </div>
     </div>
   </div>
@@ -113,43 +101,58 @@ export default {
       answer: parseInt((Math.random() * 100).toFixed()),
       tryCount: 0,
       maxTryCount: 7,
-      chooseText: '',
-      answerText: '',
-      finishText: '',
+      chooseText: "",
+      answerText: "",
+      finishText: "",
       isDisabledInput: false,
       isBtnRepeat: true,
       isBtnAnswer: true,
-      isBtnExit: true,
-    }
+			isBtnExit: true,
+    };
   },
+  inject: ["translate"],
   mounted() {
-    this.chooseText = `Вы имеете попыток: ( ${ this.maxTryCount - parseInt(this.tryCount)} ) из ${this.maxTryCount}`;
+    this.chooseText =  this.$lang('guessNum.attempts') + `: ( ${
+      this.maxTryCount - parseInt(this.tryCount)
+    } ) ` + this.$lang('guessNum.from') + ' ' + this.maxTryCount;
   },
-  methods: {
+	methods: {
+		langEn() {
+      this.translate("en");
+      this.$forceUpdate();
+    },
+    langRu() {
+      this.translate("ru");
+      this.$forceUpdate();
+    },
+    langSk() {
+      this.translate("sk");
+      this.$forceUpdate();
+    },
     getUserAnswer(e) {
-      if( parseInt(this.userAnswer) < 0) {
-          this.answerText = 'Значение не может быть отрицательным!';
-          this.isDisabledInput = true;
-          this.isBtnAnswer = true;
-          this.isBtnExit = false;
-          this.isBtnRepeat = true;
-      } else if ( parseInt(this.userAnswer) > 100) {
-          this.answerText = 'Значение не может быть больше 100!';
-          this.isDisabledInput = true;
-          this.isBtnAnswer = true;
-          this.isBtnExit = false;
-          this.isBtnRepeat = true;
+      if (parseInt(this.userAnswer) < 0) {
+        this.answerText = this.$lang('guessNum.negative');
+        this.isDisabledInput = true;
+        this.isBtnAnswer = true;
+        this.isBtnExit = false;
+        this.isBtnRepeat = true;
+      } else if (parseInt(this.userAnswer) > 100) {
+        this.answerText = this.$lang('guessNum.moreHundred');
+        this.isDisabledInput = true;
+        this.isBtnAnswer = true;
+        this.isBtnExit = false;
+        this.isBtnRepeat = true;
       } else {
-          this.userAnswer = e.target.value;
-          this.isBtnAnswer = false;
-          this.isBtnRepeat = false;
-          this.isBtnExit = false;
+        this.userAnswer = e.target.value;
+        this.isBtnAnswer = false;
+        this.isBtnRepeat = false;
+        this.isBtnExit = false;
       }
     },
     breakGame() {
       this.userAnswer = null;
-      this.chooseText = 'Выход выполнен!';
-      this.answerText = `Правильным ответом было число: ( ${this.answer} )`;
+      this.chooseText = this.$lang('guessNum.exitСompleted');
+      this.answerText = this.$lang('guessNum.correctAnswerWas') + `: ( ${this.answer} )`;
       this.isDisabledInput = true;
       this.isBtnRepeat = false;
       this.isBtnAnswer = true;
@@ -159,57 +162,59 @@ export default {
 
     repeat() {
       this.userAnswer = null;
-      this.answerText = '';
+      this.answerText = "";
       this.tryCount = 0;
-      this.chooseText = `Вы имеете попыток: ( ${ this.maxTryCount - parseInt(this.tryCount)} ) из ${this.maxTryCount}`;
+      this.chooseText = this.$lang('guessNum.attempts') + `: ( ${
+        this.maxTryCount - parseInt(this.tryCount)
+      } ) ` + this.$lang('guessNum.from') + ' ' + this.maxTryCount;
       this.isDisabledInput = false;
       this.isBtnAnswer = true;
       this.isBtnRepeat = true;
       this.isBtnExit = true;
-
     },
     getNumber() {
       this.tryCount++;
-        if ( parseInt(this.userAnswer) === this.answer) {
-          this.answerText = 'Поздравляю!!! Вы угадали!';
-          this.isDisabledInput = true;
-          this.isBtnAnswer = true;
-          this.isBtnExit = true;
-          this.answer = parseInt((Math.random() * 100).toFixed());
-
-        } else if (this.tryCount - this.maxTryCount === 0) {
-          this.answerText = `Ваше число ${this.userAnswer}`
-        } else if ( parseInt(this.userAnswer) > this.answer) {
-            this.answerText = `Ваше число ${this.userAnswer} слишком большое.`;
-            this.isBtnExit = false;
-            this.isBtnAnswer = true;
-            this.isBtnRepeat = true;
-            this.chooseText = `Вы имеете попыток: ( ${ this.maxTryCount - parseInt(this.tryCount)} ) из ${this.maxTryCount}`;
-        } else if ( parseInt(this.userAnswer) < this.answer) {
-            this.answerText = `Ваше число ( ${this.userAnswer} ) слишком маленькое.`;
-            this.isBtnExit = false;
-            this.isBtnAnswer = true;
-            this.isBtnRepeat = true;
-            this.chooseText = `Вы имеете попыток: ( ${ this.maxTryCount - parseInt(this.tryCount)} ) из ${this.maxTryCount}`
-        }
+      if (parseInt(this.userAnswer) === this.answer) {
+        this.answerText = this.$lang('guessNum.сongratulations');
+        this.isDisabledInput = true;
+        this.isBtnAnswer = true;
+        this.isBtnExit = true;
+        this.answer = parseInt((Math.random() * 100).toFixed());
+      } else if (this.tryCount - this.maxTryCount === 0) {
+        this.answerText = this.$lang('guessNum.yourNumber') + ' ' + this.userAnswer;
+      } else if (parseInt(this.userAnswer) > this.answer) {
+        this.answerText = this.$lang('guessNum.yourNumber') + ` ( ${this.userAnswer} ) ` +  this.$lang('guessNum.tooBig') +  '.';
+        this.isBtnExit = false;
+        this.isBtnAnswer = true;
+        this.isBtnRepeat = true;
+        this.chooseText = this.$lang('guessNum.attempts') +  `: ( ${
+          this.maxTryCount - parseInt(this.tryCount)
+        } ) from ${this.maxTryCount}`;
+      } else if (parseInt(this.userAnswer) < this.answer) {
+        this.answerText = this.$lang('guessNum.yourNumber') + ` ( ${this.userAnswer} ) ` + this.$lang('guessNum.tooSmall') + '.';
+        this.isBtnExit = false;
+        this.isBtnAnswer = true;
+        this.isBtnRepeat = true;
+        this.chooseText = this.$lang('guessNum.attempts') + `:  ( ${
+          this.maxTryCount - parseInt(this.tryCount)
+        } )` + this.$lang('guessNum.from') + ' ' + this.maxTryCount;
+      }
       this.userAnswer = null;
-    }
+    },
   },
   watch: {
     tryCount() {
-      if(this.tryCount - this.maxTryCount === 0) {
-        this.finishText = `К сожалению, попыток больше не осталось. Правильным ответом было число ( ${this.answer} )`;
+      if (this.tryCount - this.maxTryCount === 0) {
+        this.finishText = this.$lang('guessNum.unfortunately') + `: ( ${this.answer} )`;
         this.isDisabledInput = true;
         this.isBtnAnswer = true;
         this.isBtnExit = true;
         this.isBtnRepeat = false;
         this.answer = parseInt((Math.random() * 100).toFixed());
       }
-    }
+    },
   },
-}
-
-
+};
 </script>
 
 <style scoped>
@@ -243,7 +248,7 @@ export default {
   cursor: pointer;
 }
 .btn {
-  width: 150px!important;
+  width: 150px !important;
 }
 #guestHint {
   cursor: pointer;

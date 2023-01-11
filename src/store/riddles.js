@@ -3,20 +3,20 @@ export default {
   state: {
     riddles: {
       riddle1: {
-        quest: 'Какой стол не имеет ног?',
-        answer: ['парта', 'кульман']
+        quest: 'Which table has no legs?',
+        answer: ['desk', 'drawing board']
       },
       riddle2: {
-        quest: 'Маленький, серенький на слона похож. Кто это?',
-        answer: ['слоник', 'слоненок']
+        quest: 'Small, gray looks like an elephant. Who is it?',
+        answer: ['elephant', 'baby elephant']
       },
       riddle3: {
-        quest: 'У семерых братьев по сестре. Сколько всего сестер?',
-        answer: ['1', 'одна']
+        quest: 'Seven brothers have a sister. How many sisters are there in total?',
+        answer: ['1', 'one']
       },
       riddle4: {
-        quest: 'На руках десять пальцев. Сколько пальцев на десяти руках?',
-        answer: ['50', 'пятьдесят']
+        quest: 'There are ten fingers on the hands. How many fingers are there on ten hands?',
+        answer: ['50', 'fifty']
       },
     }
   },

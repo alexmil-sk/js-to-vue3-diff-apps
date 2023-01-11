@@ -1,12 +1,12 @@
 <template>
   <div>
-    <h1>Графики криптовалюты (BINANCE / Спот)</h1>
+    <h1>Cryptocurrency Charts (BINANCE / Spot)</h1>
 
     <ChartWindowQuantity @selectChartsQuantity="selectChartsQuantity"/>
 
 
     <div class=" d-inline-flex flex-wrap justify-content-center w-100 mt-3">
-          <ChartCryptoComp v-for=" (item, idx) in chartsQuantity" />
+          <ChartCryptoComp v-for=" (item, idx) in chartsQuantity" :key="item"/>
     </div>
 
   </div>

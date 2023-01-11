@@ -25,7 +25,7 @@ export default {
   },
   mounted() {
     setInterval(() => {
-      this.date = new Intl.DateTimeFormat('ru-RU', {
+      this.date = new Intl.DateTimeFormat('en-EN', {
         dateStyle: 'full',
         timeStyle: 'long'
       }).format(new Date())

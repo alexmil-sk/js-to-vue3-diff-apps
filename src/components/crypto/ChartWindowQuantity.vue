@@ -8,7 +8,9 @@
   >
     <option selected>{{selectValue}}</option>
     <option
-        v-for="item in 20">
+        v-for="item in 20"
+				:key="item"
+				>
       {{item}}
     </option>
 
@@ -21,7 +23,7 @@ export default {
   emits: ['selectChartsQuantity'],
   data() {
     return {
-      selectValue: 'Выберите количество графиков',
+      selectValue: 'Select the number of graphs',
     }
   }
 }

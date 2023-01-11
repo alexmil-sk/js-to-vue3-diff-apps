@@ -1,12 +1,12 @@
 <template>
   <div class="input-group d-flex flex-column mt-3  mb-4 w-75">
-    <label for="coinInput" class="fs-5">Введите пару в формате: BTCUSDT</label>
+    <label for="coinInput" class="fs-5">Enter a crypto pair in the format: BTCUSDT</label>
     <div class="d-flex align-items-end" style="height: 52px;">
       <input
           id="coinInput"
           type="text"
           class="form-control mt-2  position-relative"
-          placeholder="Пользовательская криптовалютная пара"
+          placeholder="Custom cryptocurrency pair"
           v-model="coinInput"
           @keyup.enter.prevent="getCryptoCoin"
           @input="$emit('coinValue',coinInput)"
@@ -19,20 +19,20 @@
       <button
           class="btn btn-secondary btn-outline-secondary text-white text-uppercase"
           @click="getCryptoCoin"
-      >Подтвердить
+      >Confirm
       </button>
     </div>
     <small
         class="text-danger text-uppercase mt-1"
         style="position: absolute; top: 80px;"
         v-if="v$.coinInput.$dirty && v$.coinInput.required.$invalid"
-    >Поле не заполнено!
+    >The field is not filled in!
     </small>
     <small
         class="text-danger text-uppercase mt-1"
         style="position: absolute; top: 80px;"
         v-if="v$.coinInput.$dirty && v$.coinInput.alpha.$invalid"
-    >Поле должно содержать только латинские буквы!
+    >The field must contain only Latin letters!
     </small>
   </div>
 </template>

@@ -12,12 +12,12 @@
     >
       <div class="container-lg w-100 d-flex flex-row justify-content-start mt-3 ms-0 mb-3">
         <div class="text-center w-50">
-          <label class="mb-2 text-uppercase text-bold">криптопара</label>
+          <label class="mb-2 text-uppercase text-bold">crypto pair</label>
           <select
               class="form-select"
               @change="getCoin"
           >
-            <option style="font-size: 16px!important;">Введите пару</option>
+            <option style="font-size: 16px!important;">Enter a pair</option>
             <option
                 v-for="(cryptoCoin, idx) in cryptoCurrencies"
                 :key="idx"
@@ -28,13 +28,13 @@
           </select>
         </div>
         <div  class="text-center w-50">
-          <label class="mb-2 text-uppercase">интервал</label>
+          <label class="mb-2 text-uppercase">interval</label>
           <select
               class="form-select"
               @change="getInterv"
               style="font-size: 16px!important;"
           >
-            <option>Ваш интервал</option>
+            <option>Your interval</option>
             <option
                 v-for="(cryptoInterval, idx) in cryptoIntervals"
                 :key="idx"
@@ -65,9 +65,9 @@
           <div class="trades-header container-sm">
             <table class="trade-item table table-dark text-light text-center w-100 mb-0">
               <tr>
-                <th scope="col">Цена</th>
-                <th scope="col">Количество</th>
-                <th scope="col">Сумма</th>
+                <th scope="col">Price</th>
+                <th scope="col">Quantity</th>
+                <th scope="col">Amount</th>
               </tr>
             </table>
           </div>
@@ -79,6 +79,7 @@
             <table class="trade-item-buy text-center mb-0">
               <tr
                   v-for="(item) in arrTrades"
+									:key="item"
                   :style="{backgroundColor: item.isBuyMaker ? '#FFB8B8' : 'lightgreen'}"
               >
                 <td class="w-25 text-start  pt-0 pb-0">{{ item.priceTrade}}</td>

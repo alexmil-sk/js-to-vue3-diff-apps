@@ -1,6 +1,6 @@
 <template>
   <div class="container border-box">
-    <NavbarComp />
+    <NavbarComp @langEn="langEn" @langRu="langRu"/>
     <div class="height100vh">
     <RouterView/>
     </div>
@@ -16,7 +16,7 @@ export default {
   components: {
     NavbarComp,
     FooterComp
-  }
+	},
 }
 </script>
 <style>

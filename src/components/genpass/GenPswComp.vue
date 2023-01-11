@@ -1,101 +1,118 @@
 <template>
-  <div class="container-md">
-    <h1 class="ff_oi">Генератор паролей</h1>
-    <div class="w-750">
-      <h4 class="mt-5 ff_nunito fw-bolder">В пароле будут использованы:</h4>
-        <ul class="ff_jura fs-4">
-          <li>буквы латинского алфавита (a-z, A-Z);</li>
-          <li>специальные символы (!,@,#,$,%,&,?,-,+,=,~)</li>
-          <li>числа (0-9)</li>
-        </ul>
-      <div class="mt-5 w-50">
-        <label
-            for="userNum"
-            class="form-label fw-bolder ff_nunito fs-5"
-        >{{chooseText}}
-          <span :style="{display: isDisabledInput ? 'none' : null}" id="guestHint" v-tooltip="'Число должно быть двузначным'">
-            <img
-                src="@/img/svg/question-circle-fill.svg"
-                alt="question-fill"
-            />
-          </span>
-        </label>
-        <div class="input-group input-group-default w-100">
-          <input
-              id="userNum"
-              type="number"
-              class="form-control ff_roboto"
-              width="200px"
-              placeholder="Введите двузначное число"
-              v-model="userNum"
-              v-focus
-              @keyup.enter="generatePassword"
-              @input="inputChange"
-              :disabled="isDisabledInput"
-          >
-          <button
-              class="btn btn-success w-25 text-uppercase fs-5"
-              type="button"
-              @click="generatePassword"
-              :disabled="isDisabledBtnGen"
-          >Старт</button>
-          <span id="guest" v-tooltip="'Запуск генерации пароля'" class="btnHintStart">
-            <img
-                src="@/img/svg/question-circle.svg"
-                alt="question"
-            />
-          </span>
-          <button
-              class="btn btn-danger w-25 text-uppercase fs-5"
-              type="button"
-              @click="clear"
-              :disabled="isDisabledBtnReset"
-          >Сброс
-          </button>
-          <span id="guest" v-tooltip="'Сброс пароля'" class="btnHintReset">
-            <img
-                src="@/img/svg/question-circle.svg"
-                alt="question"
-            />
-          </span>
-        </div>
+  <AppBtn class="" @actionRu="langRu" @actionEn="langEn" @actionSk="langSk" />
+  <h1 class="ff_oi">{{ $lang("passGen.mainTitle") }}</h1>
+  <div class="w-750">
+    <h4 class="mt-5 ff_nunito fw-bolder">
+      {{ $lang("passGen.passwordWillUse") }}:
+    </h4>
+    <ul class="ff_jura fs-4">
+      <li>{{ $lang("passGen.lettersLatin") }} (a-z, A-Z);</li>
+      <li>{{ $lang("passGen.specialCharacters") }} (!,@,#,$,%,&,?,-,+,=,~)</li>
+      <li>{{ $lang("passGen.numbers") }} (0-9)</li>
+    </ul>
+    <div class="mt-5 w-50">
+      <label for="userNum" class="form-label fw-bolder ff_nunito fs-5"
+        >{{ $lang("passGen.inputLabel") }}
+        <span
+          :style="{ display: isDisabledInput ? 'none' : null }"
+          id="guestHint"
+          v-tooltip="$lang('passGen.inputTooltip')"
+        >
+          <img src="@/img/svg/question-circle-fill.svg" alt="question-fill" />
+        </span>
+      </label>
+      <div class="input-group input-group-default w-100">
+        <input
+          id="userNum"
+          type="number"
+          class="form-control ff_roboto"
+          width="200px"
+          :placeholder="$lang('passGen.inputPlaceholder')"
+          v-model="userNum"
+          v-focus
+          @keyup.enter="generatePassword"
+          @input="inputChange"
+          :disabled="isDisabledInput"
+        />
+        <button
+          class="btn btn-success w-25 text-uppercase fs-5"
+          type="button"
+          @click="generatePassword"
+          :disabled="isDisabledBtnGen"
+        >
+          {{ $lang("passGen.btnStart") }}
+        </button>
+        <span
+          id="guest"
+          v-tooltip="$lang('passGen.StartPasswordGen')"
+          class="btnHintStart"
+        >
+          <img src="@/img/svg/question-circle.svg" alt="question" />
+        </span>
+        <button
+          class="btn btn-danger w-25 text-uppercase fs-5"
+          type="button"
+          @click="clear"
+          :disabled="isDisabledBtnReset"
+        >
+          {{ $lang("passGen.btnReset") }}
+        </button>
+        <span id="guest" v-tooltip="'Password Reset'" class="btnHintReset">
+          <img src="@/img/svg/question-circle.svg" alt="question" />
+        </span>
       </div>
-      <p class="fs-4 text-primary">{{passText}}</p>
     </div>
+    <p class="fs-4 text-primary">{{ passText }}</p>
   </div>
 </template>
 
 <script>
-import {mapGetters} from "vuex";
+import { mapGetters } from "vuex";
 
 export default {
   name: "gen-psw-comp",
   data() {
     return {
-      text: '',
+      text: "",
       userNum: null,
-      passText: '',
-      chooseText: 'Выберите количество символов в пароле:',
+      passText: "",
       isDisabledBtnReset: true,
       isDisabledBtnGen: true,
       isDisabledInput: false,
-      isToastShow: true
-    }
+      isToastShow: true,
+    };
   },
+  inject: ["translate"],
   computed: {
-    ...mapGetters(['numberArray', 'latinArraySmall', 'latinArrayBig', 'specialSymbols', 'sumArray']),
-  },
-  mounted() {
+    ...mapGetters([
+      "numberArray",
+      "latinArraySmall",
+      "latinArrayBig",
+      "specialSymbols",
+      "sumArray",
+    ]),
   },
   methods: {
+    langEn() {
+      this.translate("en");
+      this.$forceUpdate();
+    },
+    langRu() {
+      this.translate("ru");
+      this.$forceUpdate();
+    },
+    langSk() {
+      this.translate("sk");
+      this.$forceUpdate();
+    },
     getRandomNumber(max) {
-      return Math.round(Math.random() * max)
+      return Math.round(Math.random() * max);
     },
 
     generateText(array, passLength) {
       for (let i = 0; i < passLength; i++) {
-          let n = this.getRandomNumber(array.length - 1);
-          this.text += array[n];
+        let n = this.getRandomNumber(array.length - 1);
+        this.text += array[n];
       }
       return this.text;
     },
@@ -106,12 +123,12 @@ export default {
         this.isDisabledBtnGen = false;
         this.isDisabledBtnReset = false;
       } else {
-          this.isDisabledBtnGen = true;
+        this.isDisabledBtnGen = true;
       }
     },
 
     generatePassword() {
-      this.chooseText ='Ваш пароль:'
+      this.chooseText = "Your password:";
       this.passText = `${this.generateText(this.sumArray, this.userNum)}`;
       this.userNum = null;
       this.isDisabledBtnGen = true;
@@ -119,20 +136,18 @@ export default {
     },
 
     clear() {
-      this.chooseText = 'Выберите количество символов в пароле: ';
-      this.passText = '';
+      this.chooseText = "Select the number of characters in the password: ";
+      this.passText = "";
       this.isDisabledBtnReset = this.isDisabledBtnGen = true;
       this.isDisabledInput = false;
       this.userNum = null;
-      this.text = '';
-    }
+      this.text = "";
+    },
   },
-
-}
+};
 </script>
 
 <style scoped>
-
 .ff_oi {
   font-family: Oi, sans-serif;
   font-weight: 400;
@@ -165,7 +180,6 @@ export default {
   z-index: 10;
 }
 #guest {
-cursor: pointer;
+  cursor: pointer;
 }
-
 </style>

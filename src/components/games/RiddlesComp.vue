@@ -1,7 +1,7 @@
 <template>
 <div class="container-md">
       <div>
-        <h1 class="ff_oi">Игра "Отгадай загадки"</h1>
+        <h1 class="ff_oi">The game "Guess the riddles"</h1>
         <form @submit.prevent="getAnswers" class="w-50 mt-5 p-3">
             <div class="mt-4">
               <label
@@ -75,7 +75,7 @@
                     :disabled="isBtnAnswer"
                 >
                 <img src="@/img/svg/pencil-square.svg" alt="pencil-square" />
-                Ответить</button>
+                Answer</button>
                   <span
                     id="guest"
                     v-tooltip="'Проверить правильность ответов'"
@@ -94,7 +94,7 @@
                     class="btn btn-danger mt-4 ms-2 fs-6 text-uppercase"
 
                 >
-                  Очистить
+                  Clear
                 </button>
                 <span
                     id="guest"
@@ -109,7 +109,7 @@
               </span>
           </form>
         <div :style="{display: isResult ? null : 'none'}" v-if="isResult">
-          <h3>Вы ответили правильно на количество вопросов: {{ result }}</h3>
+          <h3>You answered the number of questions correctly: {{ result }}</h3>
         </div>
       </div>
   </div>
